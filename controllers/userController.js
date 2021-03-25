@@ -37,6 +37,7 @@ exports.register = async (req, res) => {
 };
 
 exports.checkToken = async (req, res) => {
+	console.log('Checking token.....');
 	res.json({
 		user: { id: req.user._id, name: req.user.name, email: req.user.email },
 		token: req.token,
