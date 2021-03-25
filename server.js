@@ -1,10 +1,14 @@
 require('dotenv').config();
 
+let port = process.env.PORT || 8000;
+
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.DATABASE, {
 	useUnifiedTopology: true,
 	useNewUrlParser: true,
+	useCreateIndex: true,
+	useFindAndModify: false,
 });
 
 mongoose.connection.on('error', (err) => {
@@ -22,8 +26,8 @@ require('./models/Message');
 
 const app = require('./app');
 
-const server = app.listen(8000, () => {
-	console.log('Server listening on port 8000');
+const server = app.listen(port, () => {
+	console.log(`Server listening on port ${port}`);
 });
 
 const io = require('socket.io')(server, {
