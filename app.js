@@ -8,9 +8,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
-app.use('/user', require('./routes/user'));
-app.use('/chatroom', require('./routes/chatroom'));
-app.use('/message', require('./routes/message'));
+app.use('/api/user', require('./routes/user'));
+app.use('/api/chatroom', require('./routes/chatroom'));
+app.use('/api/message', require('./routes/message'));
 
 //setup Error Handlers
 const errorHandlers = require('./handlers/errorHandlers');
