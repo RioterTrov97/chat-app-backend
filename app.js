@@ -2,7 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
+const morgan = require('morgan');
+
 const app = express();
+
+if (process.env.ENV === 'DEVELOPMENT') {
+	app.use(morgan('dev'));
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
