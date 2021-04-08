@@ -37,11 +37,23 @@ exports.register = async (req, res) => {
 };
 
 exports.checkToken = async (req, res) => {
-	console.log('Checking token.....');
 	res.json({
 		user: { id: req.user._id, name: req.user.name, email: req.user.email },
 		token: req.token,
 	});
+};
+
+exports.getUserName = async (req, res) => {
+	const { id } = req.body;
+	const user = await User.findOne({
+		_id: id,
+	});
+	if (user) {
+		username = user.name;
+		res.json({ username });
+	} else {
+		res.json({ username: 'Anonymous' });
+	}
 };
 
 exports.login = async (req, res) => {

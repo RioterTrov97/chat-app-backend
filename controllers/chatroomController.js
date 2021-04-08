@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const Chatroom = mongoose.model('Chatroom');
+const User = mongoose.model('User');
 
 exports.createChatroom = async (req, res) => {
-	const { name } = req.body;
+	const { name, image, description } = req.body;
 
 	const nameRegex = /^[A-Za-z\s]+$/;
 
@@ -15,6 +16,9 @@ exports.createChatroom = async (req, res) => {
 
 	const chatroom = new Chatroom({
 		name,
+		image,
+		description,
+		user: req.user._id,
 	});
 
 	await chatroom.save();
@@ -30,7 +34,17 @@ exports.getChatroomName = async (req, res) => {
 	if (!chatroomId) throw 'No chatroom Id found!!!';
 
 	const chatroom = await Chatroom.findOne({ _id: chatroomId });
-	res.json(chatroom);
+	console.log('user Name', chatroom.user);
+	const user = await User.findOne({
+		_id: chatroom.user,
+	});
+	if (user) {
+		username = user.name;
+	} else {
+		username = 'Anonymous';
+	}
+
+	res.json({ chatroom, username });
 };
 
 exports.getAllChatrooms = async (req, res) => {
